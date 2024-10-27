@@ -131,6 +131,14 @@ body{
   aspect-ratio: 1/1;
   width: 30px;
 }
+.smollsvg > svg{
+  height: 100%;
+  aspect-ratio: 1/1;
+  width: 30px;
+}
+
+.projects > .card{
+}
 
 .App-header {
   background-color: #282c34;

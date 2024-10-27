@@ -108,6 +108,33 @@ const [frameworks, setFrameworks] = useState([
     {href:"https://sqlitebrowser.org/", icon:"database"},
     {href:"https://unity.com/", icon:"unity"}
   ])
+
+  const [projects, setProjects] = useState([
+    {title:"My portfolio",
+     description:"This is my portfolio that you are currently looking at right now.", 
+     imageUrl:"https://files.offshore.cat/olKkaEG0.png",
+     uses: ["html5","css","js","react","bootstrap", "gsap"],
+     buttons:[{variant:"primary",name:"Repository", href:"https://github.com/tadas-vnc/my-portfolio"}]
+    },
+    {title:"Trentry - Markdown pastebin",
+      description:"Clone of rentry.co markdown pastebin.", 
+      imageUrl:"https://files.offshore.cat/cmM3N9RU.png",
+      uses: ["html5","css","js","ejs","express","node"],
+      buttons:[{variant:"primary",name:"Repository", href:"https://github.com/tadas-vnc/trentry"}]
+     },
+     {title:"URL shortener",
+       description:"Just a simple URL shortener made with flask.", 
+       imageUrl:"https://files.offshore.cat/eRUoV162.png",
+       uses: ["html5","css","js","react","flask","python"],
+       buttons:[{variant:"primary",name:"Repository", href:"https://github.com/tadas-vnc/url-shortener"}]
+      },{title:"EventsApp",
+        description:"React app made for sharing live events.", 
+        imageUrl:"https://files.offshore.cat/2xlXzGto.png",
+        uses: ["html5","css","js","react","express","bootstrap"],
+        buttons:[{variant:"primary",name:"Repository", href:"https://github.com/tadas-vnc/events-app"}]
+       }
+  ])
+  const [allCombine, setAllCombined] = useState([...frameworks, ...softwares, ...langs])
   useEffect(() => {
     const tl = gsap.timeline();
 
@@ -249,7 +276,7 @@ const [frameworks, setFrameworks] = useState([
             <h4>Languages I use</h4>
             <div className='iconswrapper'>
               {langs.map((lang,index) => (
-                <a className='btn btn-secondary' href={lang.href} key={index}>
+                <a target='_blank' className='btn btn-secondary' href={lang.href} key={index}>
                   <Icon icon={lang.icon}></Icon>
                 </a>
               ))}
@@ -259,7 +286,7 @@ const [frameworks, setFrameworks] = useState([
               <h4>Frameworks and libraries I use</h4>
               <div className='iconswrapper'>
               {frameworks.map((lang,index) => (
-                <a className='btn btn-secondary' href={lang.href} key={index}>
+                <a target='_blank' className='btn btn-secondary' href={lang.href} key={index}>
                   <Icon icon={lang.icon}></Icon>
                 </a>
               ))}
@@ -271,7 +298,7 @@ const [frameworks, setFrameworks] = useState([
               <h4>Tools and software that I use</h4>
               <div className='iconswrapper'>
               {softwares.map((lang,index) => (
-                <a className='btn btn-secondary' href={lang.href} key={index}>
+                <a target='_blank' className='btn btn-secondary' href={lang.href} key={index}>
                   <Icon icon={lang.icon}></Icon>
                 </a>
               ))}
@@ -294,7 +321,33 @@ const [frameworks, setFrameworks] = useState([
           <hr></hr>
           
           <h2 ref={(el) => (fadeOnScroll.current[fadeOnScroll.current.length + 1] = el)}>What are my projects?</h2>
-          <div className='center' style={{overflowX:"auto"}}>
+          <div className='center projects' style={{overflowX:"auto"}}>
+            {projects.map((project, index) =>(
+          <Card key={index} style={{ width: '18rem', maxWidth:"100dvw" }} className='dark-theme'>
+            <Card.Img variant="top" src={project.imageUrl} />
+            <Card.Body>
+              <Card.Title>{project.title}</Card.Title>
+              <Card.Text>{project.description}
+              </Card.Text>
+              <ListGroup variant="flush">
+                <ListGroup.Item>
+                  <p className='text-center'>Made using:</p>
+                  {project.uses.map((usethis, index)=>(
+                    
+                    <a target='_blank' className='smollsvg btn btn-secondary' href={allCombine.find(f => f.icon === usethis).href} key={index}>
+                      <Icon icon={usethis}></Icon>
+                    </a>
+                    
+                  ))}
+                </ListGroup.Item>
+                <ListGroup.Item>
+              {project.buttons.map((button, index)=>(
+              <a href={button.href} key={index} target='_blank' className={"btn btn-"+button.variant} variant={button.variant}>{button.name}</a>
+              ))}
+              </ListGroup.Item>
+              </ListGroup>
+            </Card.Body>
+          </Card>))}
           </div>
         </div>
       </div>
