@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet";
 import React, { useEffect, useState , useRef} from "react";
 import "../node_modules/bootstrap/dist/css/bootstrap.css";
 import "../node_modules/@coreui/coreui-pro/dist/css/coreui.css";
-import { Form, Button, Container, Row, Col, Alert, Card, Navbar, ListGroup, Dropdown , NavItem, NavLink, Nav, InputGroup, ButtonGroup   } from 'react-bootstrap';
+import { Form, Button, Container, Row, Col, Alert, Card, Navbar, ListGroup, Accordion , NavItem, NavLink, Nav, InputGroup, ButtonGroup   } from 'react-bootstrap';
 import { CDatePicker } from '@coreui/react-pro'
 import { gsap } from "gsap";
 import {Icon} from "./icons";
@@ -135,6 +135,7 @@ const [frameworks, setFrameworks] = useState([
        }
   ])
   const [allCombine, setAllCombined] = useState([...frameworks, ...softwares, ...langs])
+  const [isOpen, setIsOpen] = useState(true)
   useEffect(() => {
     const tl = gsap.timeline();
 
@@ -243,13 +244,39 @@ const [frameworks, setFrameworks] = useState([
       document.body.removeChild(script);
     };
   }, []);
+  let oldScrollY = 0;
 
+  const [direction, setDirection] = useState('up');
+
+  const controlDirection = () => {
+      if(window.scrollY > oldScrollY) {
+          setDirection('down');
+      } else {
+          setDirection('up');
+      }
+      oldScrollY = window.scrollY;
+  }
+
+  useEffect(() => {
+      window.addEventListener('scroll', controlDirection);
+      return () => {
+          window.removeEventListener('scroll', controlDirection);
+      };
+  },[]);
   return (
     <>
       <Helmet>
         <title>My portfolio</title>
       </Helmet>
       <div className="App">
+        <div id="floatingnavbar" style={{"top": direction != "up" ? "-100%" : "0px"}}>
+          <div>
+            <a href='#'>Top</a>
+            <a href='#techstack'>I use</a>
+            <a href='#skills'>Skills</a>
+            <a href='#projects'>Projects</a>
+          </div>
+        </div>
         <div id="particles-js">
         </div>
         
@@ -270,7 +297,7 @@ const [frameworks, setFrameworks] = useState([
         </div>
         <p ref={downArrow} style={{textAlign:"center",position:"absolute",top:"75%", width:"100%",  animation: "upDown 1.5s ease-in-out infinite"}}><svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z"/></svg></p>
         <div id="pageunder">
-          <h2 className='text-center' ref={newElementRef}>What do I use?</h2>
+          <h2 className='text-center' id="techstack" ref={newElementRef}>What do I use?</h2>
           <div className="skills">
           <Card className='skillcontainer dark-theme' ref={langsRef}>
             <h4>Languages I use</h4>
@@ -307,7 +334,7 @@ const [frameworks, setFrameworks] = useState([
             
           </div>
           <hr></hr>
-          <h2 ref={(el) => (fadeOnScroll.current[0] = el)}>What are my skills?</h2>
+          <h2 ref={(el) => (fadeOnScroll.current[0] = el)} id="skills">What are my skills?</h2>
           <div className='skills'>
             {skills.map((skill, index)=>(
               <Card className='dark-theme skill-card' ref={(el) => (fadeOnScroll.current[index + 1] = el)} key={index}>
@@ -320,35 +347,45 @@ const [frameworks, setFrameworks] = useState([
           </div>
           <hr></hr>
           
-          <h2 ref={(el) => (fadeOnScroll.current[fadeOnScroll.current.length + 1] = el)}>What are my projects?</h2>
-          <div className='center projects' style={{overflowX:"auto"}}>
-            {projects.map((project, index) =>(
-          <Card key={index} style={{ width: '18rem', maxWidth:"100dvw" }} className='dark-theme'>
-            <Card.Img variant="top" src={project.imageUrl} />
-            <Card.Body>
-              <Card.Title>{project.title}</Card.Title>
-              <Card.Text>{project.description}
-              </Card.Text>
-              <ListGroup variant="flush">
-                <ListGroup.Item>
-                  <p className='text-center'>Made using:</p>
-                  {project.uses.map((usethis, index)=>(
-                    
-                    <a target='_blank' className='smollsvg btn btn-secondary' href={allCombine.find(f => f.icon === usethis).href} key={index}>
-                      <Icon icon={usethis}></Icon>
-                    </a>
-                    
-                  ))}
-                </ListGroup.Item>
-                <ListGroup.Item>
-              {project.buttons.map((button, index)=>(
-              <a href={button.href} key={index} target='_blank' className={"btn btn-"+button.variant} variant={button.variant}>{button.name}</a>
-              ))}
-              </ListGroup.Item>
-              </ListGroup>
-            </Card.Body>
-          </Card>))}
-          </div>
+          <h2 id="projects" ref={(el) => (fadeOnScroll.current[fadeOnScroll.current.length + 1] = el)}>What are my projects?</h2>
+          <Accordion className='dark-theme' onSelect={(e)=>{setIsOpen(!isOpen);}} defaultActiveKey={['0']} alwaysOpen>
+            <Accordion.Item eventKey="0">
+              <Accordion.Header className='dark-theme'>My projects (Click here to {isOpen ? "hide" : "show"}!)</Accordion.Header>
+              <Accordion.Body>
+                <div className='center projects' style={{overflowX:"auto", flexWrap:"wrap"}}>
+              
+                  {projects.map((project, index) =>(
+                <Card key={index} style={{ width: '18rem', maxWidth:"100dvw" }} className='dark-theme'>
+                  <Card.Img variant="top" src={project.imageUrl} />
+                  <Card.Body>
+                    <Card.Title>{project.title}</Card.Title>
+                    <Card.Text>{project.description}
+                    </Card.Text>
+                    <ListGroup variant="flush">
+                      <ListGroup.Item>
+                        <p className='text-center'>Made using:</p>
+                        {project.uses.map((usethis, index)=>(
+                          
+                          <a target='_blank' className='smollsvg btn btn-secondary' href={allCombine.find(f => f.icon === usethis).href} key={index}>
+                            <Icon icon={usethis}></Icon>
+                          </a>
+                          
+                        ))}
+                      </ListGroup.Item>
+                      <ListGroup.Item>
+                    {project.buttons.map((button, index)=>(
+                    <a href={button.href} key={index} target='_blank' className={"btn btn-"+button.variant} variant={button.variant}>{button.name}</a>
+                    ))}
+                    </ListGroup.Item>
+                    </ListGroup>
+                  </Card.Body>
+                </Card>))}
+                </div>
+                </Accordion.Body>
+            </Accordion.Item>
+          </Accordion>
+          <hr></hr>
+          <h2 id="contact">Contact me</h2>
         </div>
       </div>
     </>
