@@ -2,6 +2,7 @@
   "name": "portfolio",
   "version": "0.1.0",
   "private": false,
+  "homepage":"https://tadas-vnc.github.io/my-portfolio/",
   "dependencies": {
     "@coreui/coreui-pro": "^5.5.0",
     "@coreui/react-pro": "^5.7.0",
