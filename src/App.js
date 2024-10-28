@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet";
 import React, { useEffect, useState , useRef} from "react";
 import "../node_modules/bootstrap/dist/css/bootstrap.css";
 import "../node_modules/@coreui/coreui-pro/dist/css/coreui.css";
-import { Form, Button, Container, Row, Col, Alert, Card, Navbar, ListGroup, Accordion , NavItem, NavLink, Nav, InputGroup, ButtonGroup   } from 'react-bootstrap';
+import { Form, Button, Container, Row, Col, Alert, Card, FormLabel, ListGroup, Accordion , NavItem, NavLink, Nav, InputGroup, ButtonGroup   } from 'react-bootstrap';
 import { CDatePicker } from '@coreui/react-pro'
 import { gsap } from "gsap";
 import {Icon} from "./icons";
@@ -136,6 +136,39 @@ const [frameworks, setFrameworks] = useState([
   ])
   const [allCombine, setAllCombined] = useState([...frameworks, ...softwares, ...langs])
   const [isOpen, setIsOpen] = useState(true)
+  const [fieldSize, setFieldSize] = useState("380px");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [response, setResponse] = useState("")
+  const [alertVariant, setAlertVariant] = useState("danger")
+  function sendEmail(){
+    setButtonDisabled(true);
+    fetch("https://api.emailjs.com/api/v1.0/email/send",
+      {
+        body:JSON.stringify({"service_id":"service_yzp1nbb","user_id":"FM2vvKdQPXBrKusHp","template_id":"template_avhrjrv",
+          template_params: {
+            "message":message,
+            "from_name":name, 
+            "reply_to":email
+          },
+          "lib_version":"4.3.3"
+        }),
+        method: "POST",
+        headers: {'content-type':'application/json'}}).then(res=>{
+          if(!res.ok){
+            setResponse("Error occurred while trying to send a message.");
+            setAlertVariant("danger");
+          }else{
+            setResponse("Message has been sent successfully.");
+            setAlertVariant("success");
+          }
+        }).catch(e=>{
+          setResponse("Error occurred while trying to send a fetch request.");
+          setAlertVariant("danger");
+        })
+  }
   useEffect(() => {
     const tl = gsap.timeline();
 
@@ -275,6 +308,7 @@ const [frameworks, setFrameworks] = useState([
             <a href='#techstack'>I use</a>
             <a href='#skills'>Skills</a>
             <a href='#projects'>Projects</a>
+            <a href='#contact'>Contact</a>
           </div>
         </div>
         <div id="particles-js">
@@ -285,9 +319,9 @@ const [frameworks, setFrameworks] = useState([
           <Card.Body>
           <div className="container" ref={childRef}>
             <div className="pfp">
-              <img src="https://i.pinimg.com/736x/c0/27/be/c027bec07c2dc08b9df60921dfd539bd.jpg"></img>
+              <img src="https://cvbankas-img.dgn.lt/userphoto_4_22516987/img.jpg"></img>
             </div>
-            <div className="name"><h3 className='text-center'>Firstname LastName</h3></div>
+            <div className="name"><h3 className='text-center'>Tadas Venckus</h3></div>
             <div className="desc"><p className='text-center'>Full-stack developer<br></br>UI designer<br></br>Software developer</p></div>
           </div>
          </Card.Body>
@@ -348,7 +382,7 @@ const [frameworks, setFrameworks] = useState([
           <hr></hr>
           
           <h2 id="projects" ref={(el) => (fadeOnScroll.current[fadeOnScroll.current.length + 1] = el)}>What are my projects?</h2>
-          <Accordion className='dark-theme' onSelect={(e)=>{setIsOpen(!isOpen);}} defaultActiveKey={['0']} alwaysOpen>
+          <Accordion ref={(el) => (fadeOnScroll.current[fadeOnScroll.current.length + 1] = el)} className='dark-theme' onSelect={(e)=>{setIsOpen(!isOpen);}} defaultActiveKey={['0']} alwaysOpen>
             <Accordion.Item eventKey="0">
               <Accordion.Header className='dark-theme'>My projects (Click here to {isOpen ? "hide" : "show"}!)</Accordion.Header>
               <Accordion.Body>
@@ -386,6 +420,39 @@ const [frameworks, setFrameworks] = useState([
           </Accordion>
           <hr></hr>
           <h2 id="contact">Contact me</h2>
+          <div className='center'>
+          <Card ref={(el) => (fadeOnScroll.current[fadeOnScroll.current.length + 1] = el)} style={{width:"800px", maxWidth:"100%", display:"flex", flexWrap:"wrap", justifyContent:"space-around", flexDirection:"row"}} className='dark-theme mb-5'>
+          <div className='' style={{width:fieldSize}}>
+            <FormLabel>Name</FormLabel>
+            <InputGroup  className="">
+              <InputGroup.Text><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M420-160v-520H200v-120h560v120H540v520H420Z"/></svg></InputGroup.Text>
+              <Form.Control id="shortenPass" aria-label="link" placeholder='Your name...' type="text" value={name} onInput={(e)=>{setName(e.target.value);}} />
+              
+            </InputGroup>
+            </div>
+            <div className='' style={{width:fieldSize}}>
+            <FormLabel>Email</FormLabel>
+            <InputGroup  className="">
+              <InputGroup.Text><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm320-280L160-640v400h640v-400L480-440Zm0-80 320-200H160l320 200ZM160-640v-80 480-400Z"/></svg></InputGroup.Text>
+              <Form.Control id="shortenPass" aria-label="link" placeholder='Your email...' type="text" value={email} onInput={(e)=>{setEmail(e.target.value);}}/>
+            </InputGroup>
+            </div>
+            <div style={{width:"100%", margin:"10px"}}>
+            <FormLabel className='text-left'>Message</FormLabel>
+            <Form.Control placeholder='Message...' value={message} onInput={(e)=>{setMessage(e.target.value);}} style={{width:"100%",height:"120px"}} as="textarea" aria-label="With textarea" />
+            </div>
+            <div className='center' style={{flexDirection:"column", alignItems:"center"}}>
+              <Button style={{width:"min-content"}} onClick={(e)=>{sendEmail();}} disabled={buttonDisabled} className='text-center'>Send!</Button>
+              <div className='w-100'>
+                 <div className='center'>
+                {response && <Alert style={{width:"max-content"}} variant={alertVariant} dismissible="true" onClose={(e)=>{setResponse("");}}>
+                      {response}
+                  </Alert>}
+                  </div>
+              </div>
+            </div>
+          </Card>
+          </div>
         </div>
       </div>
     </>
