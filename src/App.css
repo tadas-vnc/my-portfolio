@@ -94,15 +94,18 @@ body{
   border-radius: 50%;
   outline: #050611 2px solid;
 }
-.container {  display: grid;
-  grid-template-columns: 100px 1fr;
-  grid-template-rows: 1fr 1fr;
+.container {
+  display: grid;
+  grid-template-columns: 100px 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
   gap: 0px 0px;
   grid-auto-flow: row;
   grid-template-areas:
-    "pfp name"
-    "pfp desc";
+    "pfp name name"
+    "pfp desc desc"
+    "pfp desc desc";
 }
+
 
 .pfp { grid-area: pfp; }
 
