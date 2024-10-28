@@ -1,7 +1,6 @@
 {
   "name": "portfolio",
   "version": "0.1.0",
-  "homepage": "https://github.com/tadas-vnc/my-portfolio",
   "private": false,
   "dependencies": {
     "@coreui/coreui-pro": "^5.5.0",
@@ -15,12 +14,13 @@
     "react-bootstrap": "^2.10.5",
     "react-dom": "^18.3.1",
     "react-helmet": "^6.1.0",
+    "react-router-dom": "^6.27.0",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-	"predeploy": "npm run build",
-	"deploy": "gh-pages -d build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

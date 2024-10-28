@@ -262,7 +262,7 @@ const [frameworks, setFrameworks] = useState([
 
     const loadParticles = () => {
       if (window.particlesJS) {
-        window.particlesJS.load('particles-js', 'particlesjs.json', function() {
+        window.particlesJS.load('particles-js', window.location.pathname+'particlesjs.json', function() {
           console.log('callback - particles.js config loaded');
         });
       }
