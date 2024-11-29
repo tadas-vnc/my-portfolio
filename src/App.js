@@ -240,7 +240,9 @@ function App() {
     {href:"https://gsap.com/",icon:"gsap"},
     {href:"https://flask.palletsprojects.com/en/stable/",icon:"flask"},
     {href:"https://threejs.org",icon:"threejs"},
-    {href:"https://webgl.org",icon:"webgl"}
+    {href:"https://webgl.org",icon:"webgl"},
+    {href:"https://highlightjs.org",icon:"hljs"},
+    {href:"https://tailwindui.com/",icon:"tailwind"}
   ])
   const [softwares, setSoftwares] = useState([
     {href:'https://getpaint.net/', icon:"paintnet"},
@@ -355,6 +357,20 @@ function App() {
       },
       imageUrl: "https://i.ibb.co/XzGr0Jr/image.png",
       uses: ["html5", "css", "js", "threejs", "webgl"]
+    },
+    {
+      en: {
+        title: "PHP pastebin clone",
+        description: "Pastebin clone made in PHP and Tailwind CSS.",
+        buttons: [{variant: "primary", name: "Repository", href: "https://tadas-vnc.github.io/php-pastebin/"}]
+      },
+      lt: {
+        title: "PHP pastebin kopija",
+        description: "Svetainės \"Pastebin\" kopija padaryta naudojant PHP ir Tailwind CSS.",
+        buttons: [{variant: "primary", name: "Repozitorija", href: "https://tadas-vnc.github.io/php-pastebin/"}]
+      },
+      imageUrl: "https://i.ibb.co/M5SYZs2/image.png",
+      uses: ["html5", "css", "js", "tailwind", "hljs", "php"]
     }
   ])
   const [allCombine, setAllCombined] = useState([...frameworks, ...softwares, ...langs])
