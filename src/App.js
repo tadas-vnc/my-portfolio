@@ -362,15 +362,29 @@ function App() {
       en: {
         title: "PHP pastebin clone",
         description: "Pastebin clone made in PHP and Tailwind CSS.",
-        buttons: [{variant: "primary", name: "Repository", href: "https://tadas-vnc.github.io/php-pastebin/"}]
+        buttons: [{variant: "primary", name: "Repository", href: "https://github.com/tadas-vnc/php-pastebin"}]
       },
       lt: {
         title: "PHP pastebin kopija",
         description: "Svetainės \"Pastebin\" kopija padaryta naudojant PHP ir Tailwind CSS.",
-        buttons: [{variant: "primary", name: "Repozitorija", href: "https://tadas-vnc.github.io/php-pastebin/"}]
+        buttons: [{variant: "primary", name: "Repozitorija", href: "https://github.com/tadas-vnc/php-pastebin"}]
       },
       imageUrl: "https://i.ibb.co/M5SYZs2/image.png",
       uses: ["html5", "css", "js", "tailwind", "hljs", "php"]
+    },
+    {
+      en: {
+        title: "News articles",
+        description: "Retrieving news articles using API and displaying them on page.",
+        buttons: [{variant: "primary", name: "Try out", href: "https://tadas-vnc.github.io/news-articles/"}]
+      },
+      lt: {
+        title: "Naujienų straipsniai",
+        description: "Gaunami naujienų straipsniai iš API ir parodomi svetainėje.",
+        buttons: [{variant: "primary", name: "Išbandyti", href: "https://tadas-vnc.github.io/news-articles/"}]
+      },
+      imageUrl: "https://i.ibb.co/f2JffsB/image.png",
+      uses: ["html5", "css", "js", "bootstrap"]
     }
   ])
   const [allCombine, setAllCombined] = useState([...frameworks, ...softwares, ...langs])
